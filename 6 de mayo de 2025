@@ -1,0 +1,91 @@
+---
+
+ Día 1 – 6 de mayo de 2025
+
+Objetivo:
+Configurar el entorno de trabajo en la plataforma NVIDIA Jetson y en el servidor XAMPP para permitir la comunicación directa entre un script Python y una base de datos MySQL. Realizar la primera prueba de inserción de datos estáticos para validar la conexión.
+
+---
+
+ Actividades realizadas:
+
+1. Instalación y configuración en NVIDIA Jetson**
+
+* Verificación del sistema operativo y privilegios de usuario con acceso root para la instalación de paquetes.
+* Instalación del paquete `mysql-connector-python` usando el gestor de paquetes de Python (`pip3`), permitiendo la conexión directa a MySQL desde Python.
+* Instalación o actualización de Python 3, asegurando compatibilidad con el paquete y el hardware.
+* Verificación de la conexión de red entre la Jetson y la PC donde corre XAMPP (mismo segmento de red local).
+
+2. Configuración del servidor XAMPP en PC local**
+
+ Inicio de los servicios Apache y MySQL desde el panel de control de XAMPP.
+ Acceso a phpMyAdmin para crear la base de datos `jetson_logger` dedicada al proyecto.
+ Creación de una tabla básica llamada `sensores` con la siguiente estructura:
+
+ `id`: entero, auto incremental y clave primaria.
+ `dato`: cadena de texto para almacenar el dato recibido.
+ `fecha`: marca temporal con fecha y hora de inserción automática.
+
+```sql
+CREATE DATABASE jetson_logger;
+
+USE jetson_logger;
+
+CREATE TABLE sensores (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  dato VARCHAR(255),
+  fecha DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+**3. Desarrollo y prueba del script Python**
+
+* Elaboración de un script simple en Python que establece conexión con la base de datos MySQL a través de la IP local del servidor XAMPP.
+* Inserción de un dato estático (“Prueba Jetson”) para comprobar que la comunicación y escritura son correctas.
+
+Ejemplo del script utilizado:
+
+```python
+import mysql.connector
+
+try:
+    conn = mysql.connector.connect(
+        host="192.168.1.x",  # Reemplazar por IP real del PC con XAMPP
+        user="root",
+        password="",
+        database="jetson_logger"
+    )
+
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO sensores (dato) VALUES ('Prueba Jetson')")
+    conn.commit()
+    print("Dato insertado con éxito")
+
+except mysql.connector.Error as err:
+    print(f"Error: {err}")
+
+finally:
+    if conn.is_connected():
+        cursor.close()
+        conn.close()
+```
+
+4. Verificación y registro de resultados
+
+* Confirmación desde phpMyAdmin que el dato fue correctamente insertado en la tabla `sensores`.
+* Revisión de posibles errores y ajustes en el firewall o configuración de MySQL para permitir conexiones remotas si fue necesario.
+* Documentación del proceso para referencia futura.
+
+---
+
+ Observaciones y problemas encontrados
+
+ Inicialmente, el acceso remoto a MySQL estuvo deshabilitado, se tuvo que configurar `bind-address` en el archivo `my.ini` para permitir conexiones desde la IP de la Jetson.
+ El firewall de Windows bloqueaba las conexiones entrantes al puerto 3306, se habilitó la excepción para ese puerto.
+ Se comprobó la estabilidad de la conexión con pruebas rápidas de inserción repetidas.
+
+---
+
+ Conclusión del día
+
+Se logró establecer una conexión funcional entre NVIDIA Jetson y la base de datos MySQL corriendo en XAMPP, sentando las bases para el desarrollo posterior del sistema de registro de datos en tiempo real. Este paso fue fundamental para validar la arquitectura sin necesidad de microcontroladores externos.
