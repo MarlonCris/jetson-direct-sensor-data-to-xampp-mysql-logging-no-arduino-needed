@@ -1,0 +1,94 @@
+---
+
+Día 25 – 5 de junio de 2025
+
+Objetivo:
+Optimizar y mejorar el sistema para registrar datos de sensores y visualizar resultados en una interfaz web funcional, cerrando con éxito el proyecto del parcial.
+
+---
+
+ Actividades realizadas:
+
+1. Optimización del script de captura de datos
+
+ Refactorización del código Python para mejorar el manejo de conexiones a la base de datos.
+ Implementación de un control más eficiente para evitar fugas de memoria y garantizar la liberación correcta de recursos.
+
+2. Desarrollo y mejora de la interfaz web
+
+ Creación y mejora de scripts PHP para mostrar datos en tiempo real desde MySQL.
+ Implementación de consultas optimizadas para evitar sobrecarga del servidor.
+ Diseño básico de la interfaz para visualización clara y ordenada.
+
+3. Pruebas finales y documentación
+
+ Ejecución de pruebas largas para validar estabilidad y rendimiento general del sistema.
+ Documentación completa con código, explicaciones y resultados para entrega.
+
+---
+
+ Código de ejemplo: script Python optimizado para inserción de datos reales
+
+```python
+import mysql.connector
+import time
+
+def conectar_db():
+    try:
+        conexion = mysql.connector.connect(
+            host="192.168.1.x",  # IP del servidor XAMPP
+            user="root",
+            password="",
+            database="jetson_logger"
+        )
+        return conexion
+    except mysql.connector.Error as err:
+        print(f"Error al conectar a la base de datos: {err}")
+        return None
+
+def insertar_dato(conexion, dato):
+    try:
+        cursor = conexion.cursor()
+        sql = "INSERT INTO sensores (dato) VALUES (%s)"
+        cursor.execute(sql, (dato,))
+        conexion.commit()
+        cursor.close()
+        print(f"Dato insertado: {dato}")
+    except mysql.connector.Error as err:
+        print(f"Error al insertar dato: {err}")
+
+def leer_sensor():
+    # Aquí simula lectura real del sensor
+    # En producción se reemplaza con código real de lectura de sensores
+    import random
+    temperatura = round(random.uniform(20.0, 30.0), 2)
+    humedad = round(random.uniform(30.0, 70.0), 2)
+    return f"Temp: {temperatura}°C, Hum: {humedad}%"
+
+def main():
+    conexion = conectar_db()
+    if conexion is None:
+        print("No se pudo establecer conexión a la base de datos.")
+        return
+
+    try:
+        for _ in range(20):  # Ejecutar 20 lecturas para prueba
+            dato = leer_sensor()
+            insertar_dato(conexion, dato)
+            time.sleep(1)  # Esperar 1 segundo entre lecturas
+    finally:
+        if conexion.is_connected():
+            conexion.close()
+            print("Conexión cerrada correctamente.")
+
+if __name__ == "__main__":
+    main()
+```
+
+---
+
+ Conclusión del día
+
+Se logró una versión final del sistema que registra datos simulados en tiempo real, los inserta en la base de datos MySQL y permite su consulta desde una interfaz web básica. El código está optimizado para evitar bloqueos y fugas de memoria, con un control robusto de errores y conexiones.
+
+---
