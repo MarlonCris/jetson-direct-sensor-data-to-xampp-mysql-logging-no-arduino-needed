@@ -1,0 +1,33 @@
+Día 15 – 22 de mayo de 2025
+Objetivo:
+Finalizar la integración completa del sistema, realizar pruebas finales de estabilidad y documentar todos los avances para la entrega del parcial.
+
+Actividades realizadas:
+1. Integración y pruebas finales
+
+Ejecución de pruebas continuas durante varias horas para validar la estabilidad y rendimiento del sistema de registro de datos reales desde NVIDIA Jetson hacia MySQL en XAMPP.
+
+Validación de la integridad de la base de datos, asegurando que no haya pérdidas ni duplicados en los registros almacenados.
+
+Comprobación del correcto funcionamiento de consultas PHP para la visualización de datos en tiempo real desde una interfaz web básica.
+
+2. Optimización y corrección de errores
+
+Ajustes finales en el script para mejorar la eficiencia en el uso de recursos de la Jetson, incluyendo liberación adecuada de conexiones y memoria.
+
+Corrección de pequeños bugs detectados durante las pruebas, tales como desconexiones intermitentes y errores en la actualización de la interfaz web.
+
+3. Documentación y entrega
+
+Compilación de toda la documentación técnica desarrollada durante el parcial, incluyendo el esquema de base de datos, scripts, y bitácoras diarias de avance.
+
+Preparación de la presentación para la entrega, con ejemplos de código, capturas de pantalla y resultados de pruebas.
+
+Observaciones y problemas encontrados
+Durante las pruebas finales se identificaron pequeñas caídas de conexión causadas por saturación de la red local, se implementaron mecanismos de reintento que mitigaron el problema.
+
+La interfaz web, aunque básica, permitió visualizar correctamente los datos en tiempo real y facilitó la presentación del proyecto.
+
+Conclusión del día
+Se concluyó exitosamente el desarrollo del proyecto para el parcial, habiendo logrado una solución funcional y estable que integra la captura de datos reales en NVIDIA Jetson con almacenamiento y consulta en MySQL a través de XAMPP. La documentación completa y las pruebas exhaustivas garantizan la calidad y funcionamiento esperado para la entrega.
+
