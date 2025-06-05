@@ -1,0 +1,36 @@
+Día 4 – 9 de mayo de 2025
+Objetivo:
+Adaptar el sistema para capturar datos reales desde sensores conectados a NVIDIA Jetson y almacenarlos de forma estable en la base de datos MySQL, asegurando la continuidad del registro y la recuperación ante fallos.
+
+Actividades realizadas:
+1. Adaptación del script Python para datos reales
+
+Modificación del código para sustituir datos simulados por lecturas reales provenientes de sensores conectados vía GPIO o I2C.
+
+Implementación de funciones específicas para la lectura de sensores de temperatura y humedad instalados en Jetson.
+
+Validación de la correcta interpretación y formato de los datos antes de su inserción en la base de datos.
+
+2. Pruebas de estabilidad y manejo de errores
+
+Ejecución del script durante períodos prolongados (al menos 10 minutos continuos) para verificar que las lecturas y las inserciones no se interrumpan.
+
+Implementación de manejo de excepciones para recuperar la conexión a MySQL en caso de caídas temporales o fallos de red.
+
+Ajustes en el control del flujo de datos para evitar saturación o pérdida de registros.
+
+3. Documentación preliminar
+
+Registro de problemas encontrados y soluciones aplicadas, como retrasos en la lectura, desconexiones ocasionales, y ajustes en la temporización.
+
+Preparación de la base para la integración con interfaces web o aplicaciones futuras.
+
+Observaciones y problemas encontrados
+En ocasiones la conexión a MySQL se interrumpía brevemente; se mejoró el manejo con reintentos automáticos.
+
+La lectura de algunos sensores requería calibración adicional para evitar datos erráticos.
+
+El script fue optimizado para evitar bloqueos de memoria y asegurar liberación correcta de recursos.
+
+Conclusión del día
+Se logró integrar con éxito la adquisición de datos reales desde sensores conectados a NVIDIA Jetson y su almacenamiento estable en la base de datos MySQL. Esto representa un avance clave para el proyecto, permitiendo ahora registrar información real en tiempo real y garantizando la fiabilidad del sistema ante posibles errores.
